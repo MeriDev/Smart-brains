@@ -9,8 +9,11 @@
 @tailwind utilities;
 
 .main {
-  width: 100vw;
-  min-height: 100vh;
-  position: fixed;
+  width: 100%;
+  min-height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-image: linear-gradient(90deg, #ff5edf 0%, #04c8de 100%);
+  z-index: -1;
 }

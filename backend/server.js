@@ -1,23 +1,26 @@
+const colors = require('colors');
 const express = require('express');
-// const http = require('http');
+const { ClarifaiStub, grpc } = require('clarifai-nodejs-grpc');
+const dotenv = require('dotenv').config();
 const cors = require('cors');
 
-const colors = require('colors');
+const { handleDetect } = require('./detect');
 
-const detect = require('./detect');
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173', // Update this as needed
+};
+app.use(cors(corsOptions));
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 
-app.post('/detect', (req, res) => detect.handleDetect(req, res));
+app.post('/detect', handleDetect);
 
-app.set('port', port);
 app.listen(port, () => {
   console.log(`Proxy running on http://localhost:${port}`.rainbow.underline);
 });

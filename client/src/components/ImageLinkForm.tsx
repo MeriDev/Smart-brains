@@ -11,11 +11,11 @@ const ImageLinkForm = () => {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const detect = await axios.post('/detect', {
+      const response = await axios.post('/detect', {
         imageUrl: 'https://samples.clarifai.com/metro-north.jpg',
       });
-      const results = detect.data.results;
-      console.log(results);
+      // const results = response.data.results;
+      console.log(response.data);
       // results.forEach(region => {
 
       // });
