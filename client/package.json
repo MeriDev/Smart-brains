@@ -2,7 +2,7 @@
   "name": "smart-brains",
   "private": true,
   "version": "0.1.0",
-  "proxy": "http://localhost:8000/",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,7 +14,6 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
     "axios": "^1.7.7",
-    "clarifai-nodejs-grpc": "^10.8.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-tilt": "^1.0.2",

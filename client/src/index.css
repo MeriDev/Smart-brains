@@ -17,3 +17,16 @@
   background-image: linear-gradient(90deg, #ff5edf 0%, #04c8de 100%);
   z-index: -1;
 }
+
+.bounding-box {
+  position: absolute;
+  box-shadow: 0 0 0 3px #149df2 inset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.imageForm {
+  @apply relative w-full flex justify-center items-center shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur px-4 py-8 border-red-900 rounded-sm shadow-md hover:scale-105 transition-all ease-in-out duration-500;
+}

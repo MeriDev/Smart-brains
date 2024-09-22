@@ -1,3 +1,5 @@
+import Provider from './context/context';
+
 import Navigation from './components/Navigation';
 import Logo from './components/Logo';
 import FaceRegonition from './components/FaceRegonition';
@@ -7,20 +9,22 @@ import ParticlesEffect from './components/ParticlesEffect';
 
 function App() {
   return (
-    <>
-      <main className=" main">
-        {/* particles effect */}
-        <ParticlesEffect />
+    <Provider>
+      <>
+        <main className=" main">
+          {/* particles effect */}
+          <ParticlesEffect />
 
-        <div className="flex justify-between ">
-          <Logo />
-          <Navigation />
-        </div>
-        <Rank />
-        <ImageLinkForm />
-        <FaceRegonition />
-      </main>
-    </>
+          <div className="flex justify-between ">
+            <Logo />
+            <Navigation />
+          </div>
+          <Rank />
+          <ImageLinkForm />
+          <FaceRegonition />
+        </main>
+      </>
+    </Provider>
   );
 }
 
