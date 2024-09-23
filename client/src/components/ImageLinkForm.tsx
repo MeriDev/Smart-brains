@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useMyContext } from '../context/context';
 
 import axios from 'axios';
 
 const ImageLinkForm = () => {
-  const { imageUrl, setImageUrl } = useMyContext();
-  const { setBox } = useMyContext();
+  const { imageUrl, setImageUrl, setBoxDimentions } = useMyContext();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value.trim());
@@ -12,29 +14,40 @@ const ImageLinkForm = () => {
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
+      if (!imageUrl) {
+        setError('Please provide a valid image URL.');
+        setLoading(false);
+        return;
+      }
+
       const response = await axios.post('http://localhost:8000/detect', {
         imageUrl: imageUrl,
       });
       const results = response.data.results;
+      const faceBoxes = results.map(region => {
+        const { topRow, leftCol, rightCol, bottomRow } = region.boundingBox;
 
-      results.forEach(region => {
-        const faceBoxDimentions = region.boundingBox;
-        const image = document.getElementById('inputImage');
+        const image = document.getElementById(
+          'inputImage'
+        ) as HTMLImageElement | null;
         const width = Number(image.width);
         const height = Number(image.height);
 
-        const faceBox = {
-          leftCol: faceBoxDimentions.leftCol * width,
-          topRow: faceBoxDimentions.topRow * height,
-          rightCol: width - faceBoxDimentions.rightCol * width,
-          bottomRow: height - faceBoxDimentions.bottomRow * height,
+        return {
+          left: leftCol * width,
+          top: topRow * height,
+          right: width - rightCol * width,
+          bottom: height - bottomRow * height,
         };
-        console.log(faceBox);
-        setBox(faceBox);
       });
+      setBoxDimentions(faceBoxes);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,8 +65,8 @@ const ImageLinkForm = () => {
           onChange={onInputChange}
           className=" bg-white/70 py-1 px-3 text-lg w-2/3 rounded-tl-md rounded-bl-md"
         />
-        <button className="bg-pink-700/70 font-semibold text-white py-1 px-2 hover:bg-pink-500/50 text-lg rounded-tr-md rounded-br-md cursor-pointer">
-          Detect
+        <button className="btn" type="submit">
+          {loading ? 'Loading...' : 'Detect'}
         </button>
       </form>
     </div>

@@ -5,6 +5,8 @@ interface contextType {
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   box: React.CSSProperties;
   setBox: React.Dispatch<React.SetStateAction<React.CSSProperties>>;
+  boxDimentions: React.CSSProperties[];
+  setBoxDimentions: React.Dispatch<React.SetStateAction<React.CSSProperties[]>>;
 }
 interface MyContextPropsType {
   children: React.ReactNode;
@@ -15,9 +17,19 @@ export const MyContext = createContext<contextType | null>(null);
 export default function Provider({ children }: MyContextPropsType) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [box, setBox] = useState<object>({});
+  const [boxDimentions, setBoxDimentions] = useState([]);
 
   return (
-    <MyContext.Provider value={{ imageUrl, setImageUrl, box, setBox }}>
+    <MyContext.Provider
+      value={{
+        imageUrl,
+        setImageUrl,
+        box,
+        setBox,
+        boxDimentions,
+        setBoxDimentions,
+      }}
+    >
       {children}
     </MyContext.Provider>
   );

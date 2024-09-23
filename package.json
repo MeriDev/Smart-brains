@@ -1,12 +1,12 @@
 {
-  "name": "backend",
+  "name": "smart-brains",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "node": "node backend/server.js",
     "start": "nodemon backend/server.js",
-    "server": "concurrently \"npm run start\" \"cd client && npm run dev\""
+    "server": "concurrently \" npm run start\" \"cd client && npm run dev\""
   },
   "keywords": [],
   "author": "",

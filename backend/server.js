@@ -10,7 +10,7 @@ const app = express();
 
 // Enable CORS for all routes
 const corsOptions = {
-  origin: 'http://localhost:5173', // Update this as needed
+  origin: 'http://localhost:5173',
 };
 app.use(cors(corsOptions));
 
