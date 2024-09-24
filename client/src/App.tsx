@@ -1,5 +1,8 @@
 import Provider from './context/context';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Navigation from './components/Navigation';
 import Logo from './components/Logo';
 import FaceRegonition from './components/FaceRegonition';
@@ -23,6 +26,7 @@ function App() {
           <ImageLinkForm />
           <FaceRegonition />
         </main>
+        <ToastContainer />
       </>
     </Provider>
   );

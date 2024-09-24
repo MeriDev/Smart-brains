@@ -1,13 +1,21 @@
 import React, { createContext, useState, useContext } from 'react';
 
+interface BoundingBox {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
 interface contextType {
   imageUrl: string;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   box: React.CSSProperties;
   setBox: React.Dispatch<React.SetStateAction<React.CSSProperties>>;
-  boxDimentions: React.CSSProperties[];
-  setBoxDimentions: React.Dispatch<React.SetStateAction<React.CSSProperties[]>>;
+  boxDimensions: BoundingBox[];
+  setBoxDimensions: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
 }
+
 interface MyContextPropsType {
   children: React.ReactNode;
 }
@@ -17,7 +25,7 @@ export const MyContext = createContext<contextType | null>(null);
 export default function Provider({ children }: MyContextPropsType) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [box, setBox] = useState<object>({});
-  const [boxDimentions, setBoxDimentions] = useState([]);
+  const [boxDimensions, setBoxDimensions] = useState<BoundingBox[]>([]);
 
   return (
     <MyContext.Provider
@@ -26,8 +34,8 @@ export default function Provider({ children }: MyContextPropsType) {
         setImageUrl,
         box,
         setBox,
-        boxDimentions,
-        setBoxDimentions,
+        boxDimensions,
+        setBoxDimensions,
       }}
     >
       {children}

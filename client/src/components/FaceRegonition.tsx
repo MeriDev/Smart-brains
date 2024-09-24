@@ -2,7 +2,7 @@ import { useMyContext } from '../context/context';
 
 const FaceRegonition = () => {
   const { imageUrl } = useMyContext();
-  const { boxDimentions } = useMyContext();
+  const { boxDimensions } = useMyContext();
 
   return (
     imageUrl && (
@@ -15,7 +15,7 @@ const FaceRegonition = () => {
           id="inputImage"
           className="my-6 w-full block"
         />
-        {boxDimentions.map((box, i) => {
+        {boxDimensions.map((box, i) => {
           const { top, bottom, left, right } = box;
           return (
             <div

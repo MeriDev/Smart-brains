@@ -1,12 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMyContext } from '../context/context';
 
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
+interface BoundingBox {
+  leftCol: number;
+  topRow: number;
+  rightCol: number;
+  bottomRow: number;
+}
+
+interface Region {
+  boundingBox: BoundingBox;
+}
 
 const ImageLinkForm = () => {
-  const { imageUrl, setImageUrl, setBoxDimentions } = useMyContext();
+  const { imageUrl, setImageUrl, setBoxDimensions } = useMyContext();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    setBoxDimensions([]);
+  }, [imageUrl]);
+
+  const DetectFaces = async (): Promise<Region[]> => {
+    const response = await axios.post('http://localhost:8000/detect', {
+      imageUrl: imageUrl,
+    });
+    return response.data.results;
+  };
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value.trim());
@@ -19,20 +43,17 @@ const ImageLinkForm = () => {
     try {
       if (!imageUrl) {
         setError('Please provide a valid image URL.');
+        toast.error(error);
         setLoading(false);
         return;
       }
 
-      const response = await axios.post('http://localhost:8000/detect', {
-        imageUrl: imageUrl,
-      });
-      const results = response.data.results;
-      const faceBoxes = results.map(region => {
+      const results = await DetectFaces();
+      const faceBoxes = results.map((region: Region) => {
         const { topRow, leftCol, rightCol, bottomRow } = region.boundingBox;
 
-        const image = document.getElementById(
-          'inputImage'
-        ) as HTMLImageElement | null;
+        const image =
+          (document.getElementById('inputImage') as HTMLImageElement) ?? null;
         const width = Number(image.width);
         const height = Number(image.height);
 
@@ -43,7 +64,7 @@ const ImageLinkForm = () => {
           bottom: height - bottomRow * height,
         };
       });
-      setBoxDimentions(faceBoxes);
+      setBoxDimensions(faceBoxes);
     } catch (error) {
       console.error(error);
     } finally {
