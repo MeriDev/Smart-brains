@@ -14,6 +14,12 @@ interface contextType {
   setBox: React.Dispatch<React.SetStateAction<React.CSSProperties>>;
   boxDimensions: BoundingBox[];
   setBoxDimensions: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  imageLoaded: boolean;
+  setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  handleImageError: () => void;
+  handleImageLoad: () => void;
 }
 
 interface MyContextPropsType {
@@ -26,6 +32,18 @@ export default function Provider({ children }: MyContextPropsType) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [box, setBox] = useState<object>({});
   const [boxDimensions, setBoxDimensions] = useState<BoundingBox[]>([]);
+  const [error, setError] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageError = () => {
+    setImageLoaded(false);
+    setError('Image could not be loaded. Please check the URL.');
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+    setError(''); // Clear any previous error messages
+  };
 
   return (
     <MyContext.Provider
@@ -36,6 +54,12 @@ export default function Provider({ children }: MyContextPropsType) {
         setBox,
         boxDimensions,
         setBoxDimensions,
+        error,
+        setError,
+        imageLoaded,
+        setImageLoaded,
+        handleImageError,
+        handleImageLoad,
       }}
     >
       {children}

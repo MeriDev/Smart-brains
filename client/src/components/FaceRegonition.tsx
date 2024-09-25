@@ -1,8 +1,15 @@
+import { toast } from 'react-toastify';
 import { useMyContext } from '../context/context';
+import { error } from 'console';
 
 const FaceRegonition = () => {
-  const { imageUrl } = useMyContext();
-  const { boxDimensions } = useMyContext();
+  const {
+    imageUrl,
+    boxDimensions,
+    handleImageError,
+    handleImageLoad,
+    imageLoaded,
+  } = useMyContext();
 
   return (
     imageUrl && (
@@ -14,7 +21,16 @@ const FaceRegonition = () => {
           height={imageUrl ? 'auto' : '300px'}
           id="inputImage"
           className="my-6 w-full block"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          style={{
+            display: imageLoaded ? 'block' : 'none',
+          }}
         />
+        {!imageLoaded &&
+          error &&
+          toast.error(error, { position: 'top-center' })}
+
         {boxDimensions.map((box, i) => {
           const { top, bottom, left, right } = box;
           return (

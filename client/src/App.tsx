@@ -26,7 +26,7 @@ function App() {
           <ImageLinkForm />
           <FaceRegonition />
         </main>
-        <ToastContainer />
+        <ToastContainer position="top-center" autoClose={3000} />
       </>
     </Provider>
   );

@@ -16,10 +16,16 @@ interface Region {
 }
 
 const ImageLinkForm = () => {
-  const { imageUrl, setImageUrl, setBoxDimensions } = useMyContext();
+  const {
+    imageUrl,
+    setImageUrl,
+    setBoxDimensions,
+    error,
+    setError,
+    setImageLoaded,
+  } = useMyContext();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     setBoxDimensions([]);
@@ -34,6 +40,16 @@ const ImageLinkForm = () => {
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value.trim());
+    setImageLoaded(false);
+    setError('');
+
+    if (imageUrl && !imageUrl.endsWith('.jpg')) {
+      setError('Please enter a valid .jpg image URL.');
+      setImageUrl('');
+      toast.error(error, { position: 'top-center', autoClose: 3000 });
+    } else {
+      setError('');
+    }
   };
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +59,11 @@ const ImageLinkForm = () => {
     try {
       if (!imageUrl) {
         setError('Please provide a valid image URL.');
-        toast.error(error);
+        toast.error(error, {
+          position: 'top-center',
+          autoClose: 2500,
+          hideProgressBar: true,
+        });
         setLoading(false);
         return;
       }
