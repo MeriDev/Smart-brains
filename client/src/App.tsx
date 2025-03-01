@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Navigation from './components/Navigation';
 import Logo from './components/Logo';
-import FaceRegonition from './components/FaceRegonition';
+import FaceRecognition from './components/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm';
 import Rank from './components/Rank';
 import ParticlesEffect from './components/ParticlesEffect';
@@ -24,7 +24,7 @@ function App() {
           </div>
           <Rank />
           <ImageLinkForm />
-          <FaceRegonition />
+          <FaceRecognition />
         </main>
         <ToastContainer position="top-center" autoClose={3000} />
       </>
